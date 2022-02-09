@@ -1,12 +1,15 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>SingleDisplay.qml</file>
-        <file>Checkered.qml</file>
-        <file>Point.qml</file>
-        <file>play_icon.png</file>
-        <file>BottomBar.qml</file>
-        <file>ColumnInCells.qml</file>
-        <file>Jumper.qml</file>
+        <file>qml/BottomBar.qml</file>
+        <file>qml/Checkered.qml</file>
+        <file>qml/ColumnInCells.qml</file>
+        <file>qml/Jumper.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/NetworkSettings.qml</file>
+        <file>qml/Point.qml</file>
+        <file>qml/SingleDisplay.qml</file>
+        <file>qml/WindowNetworkSettings.qml</file>
+        <file>img/play_icon.png</file>
+        <file>img/settings-icon.png</file>
     </qresource>
 </RCC>

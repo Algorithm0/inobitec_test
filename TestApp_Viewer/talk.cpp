@@ -3,7 +3,7 @@
 #include <QRandomGenerator>
 #include <QThread>
 
-Talk::Talk(qint16 port_read, qint16 port_write) : portW(port_write), portR(port_read) {}
+Talk::Talk(qint16 portRead, qint16 portWrite, QHostAddress ip) : portW(portWrite), portR(portRead), address(ip) {}
 
 Talk::~Talk()
 {
@@ -16,25 +16,46 @@ bool Talk::start()
     return connectUdp();
 }
 
+void Talk::setNewArgsAndStart(int portRead, int portWrite, QString ip)
+{
+    if(socket.isValid())
+        socket.close();
+    QHostAddress tmp(ip);
+    if(QAbstractSocket::IPv4Protocol != tmp.protocol())
+    {
+        emit resTalk(false);
+        return;
+    }
+    address = tmp;
+    portR = portRead;
+    portW = portWrite;
+    connectUdp();
+}
+
 bool Talk::connectUdp()
 {
-    if (socket.bind(QHostAddress::LocalHost, portR))
+    if(socket.bind(address, portR))
     {
         connect(&socket, SIGNAL(readyRead()), this, SLOT(communicationRead()));
+        emit resTalk(true);
         return true;
     }
-    else return false;
+    else
+    {
+        emit resTalk(false);
+        return false;
+    }
 }
 
 void Talk::communicationRead()
 {
-    while (socket.hasPendingDatagrams())
+    while(socket.hasPendingDatagrams())
     {
         receivedMessage.resize(socket.pendingDatagramSize());
         socket.readDatagram(receivedMessage.data(), receivedMessage.size(), &sender);
-        if (receivedMessage.size() > 3 && receivedMessage[0] == 'T')
+        if(receivedMessage.size() > 3 && receivedMessage[0] == 'T')
         {
-            emit new_data_received(QVariant((unsigned char)receivedMessage[1]),
+            emit newDataReceived(QVariant((unsigned char)receivedMessage[1]),
                                    QVariant((unsigned char)receivedMessage[2]), QVariant((unsigned char)receivedMessage[3]));
         }
     }
@@ -42,5 +63,6 @@ void Talk::communicationRead()
 
 void Talk::signalToStopServer()
 {
-    socket.writeDatagram(stopMessage, QHostAddress::LocalHost, portW);
+    if(socket.isValid())
+        socket.writeDatagram(stopMessage, address, portW);
 }

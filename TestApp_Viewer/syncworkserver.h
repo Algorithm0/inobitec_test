@@ -24,6 +24,7 @@ public:
 
 public slots:
     void doSync(); //запуск синхронизации (и непосредственный запуск программы-сервера)
+    void setPathToAppDir(QString path);
 
 private slots:
     void endServerApp();

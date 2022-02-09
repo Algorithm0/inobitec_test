@@ -16,6 +16,17 @@ SyncWorkServer::~SyncWorkServer()
     disconnect(parent, SIGNAL(aboutToQuit()), this, SLOT(endServerApp()));
 }
 
+void SyncWorkServer::setPathToAppDir(QString path)
+{
+    serverAppDir = path;
+    if (isRunning)
+    {
+        serverWork->kill();
+        endServerApp();
+        doSync();
+    }
+}
+
 void SyncWorkServer::doSync()
 {
     if (!isRunning)
@@ -31,8 +42,12 @@ void SyncWorkServer::doSync()
             isRunning = false;
             return;
         }
+        QStringList arguments;
+        arguments << "-ip" + accomplice->getAddress().toString()
+                  << "-portW" + QString(accomplice->getPortR())
+                  << "-portR" + QString(accomplice->getPortW());
         serverWork = new QProcess(this);
-        serverWork->start(programAddress);
+        serverWork->start(programAddress, arguments);
         connect(parent, SIGNAL(aboutToQuit()), accomplice, SLOT(signalToStopServer()));
         connect(parent, SIGNAL(aboutToQuit()), this, SLOT(endServerApp()));
     }
