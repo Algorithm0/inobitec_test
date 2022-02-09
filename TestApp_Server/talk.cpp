@@ -7,21 +7,21 @@
 Talk::Talk(unsigned char _minHP, unsigned char _maxHP,
            unsigned char _minLP, unsigned char _maxLP,
            unsigned char _minPL, unsigned char _maxPL,
-           qint16 port_read, qint16 port_write,
-           qint16 _interval) : minHP(_minHP), maxHP(_maxHP), minLP(_minLP), maxLP(_maxLP),
-                               minPL(_minPL), maxPL(_maxPL), portW(port_write), portR(port_read),
-                               interval(_interval)
+           qint16 port_read, qint16 port_write, qint16 _interval,
+           QHostAddress ip) : minHP(_minHP), maxHP(_maxHP), minLP(_minLP), maxLP(_maxLP),
+                              minPL(_minPL), maxPL(_maxPL), portW(port_write), portR(port_read),
+                              interval(_interval), address(ip)
 {
-    run_flag.store(false);
-    sent_message.resize(4);
-    sent_message[0] = 'T'; //header bit
-    sent_message[1] = (unsigned char)QRandomGenerator::global()->bounded(minHP, maxHP); //h. pressure
-    sent_message[2] = (unsigned char)QRandomGenerator::global()->bounded(minLP, maxLP); //l. pressure
-    sent_message[3] = (unsigned char)QRandomGenerator::global()->bounded(minPL, maxPL); //pulse
+    runFlag.store(false);
+    sentMessage.resize(4);
+    sentMessage[0] = 'T'; //header bit
+    sentMessage[1] = (unsigned char)QRandomGenerator::global()->bounded(minHP, maxHP); //h. pressure
+    sentMessage[2] = (unsigned char)QRandomGenerator::global()->bounded(minLP, maxLP); //l. pressure
+    sentMessage[3] = (unsigned char)QRandomGenerator::global()->bounded(minPL, maxPL); //pulse
 }
 
 Talk::~Talk(){
-    if (run_flag.load())
+    if (runFlag.load())
         stop();
     writing.waitForFinished();
 }
@@ -34,17 +34,17 @@ bool Talk::start()
 void Talk::stop()
 {
     disconnect(&socket, SIGNAL(readyRead()),this, SLOT(communicationRead()));
-    run_flag.store(false);
+    runFlag.store(false);
     socket.close();
     emit endWork();
 }
 
 bool Talk::connectTcp()
 {
-    if (socket.bind(QHostAddress::LocalHost, portR))
+    if (socket.bind(address, portR))
     {
         connect(&socket, SIGNAL(readyRead()), this, SLOT(communicationRead()));
-        run_flag.store(true);
+        runFlag.store(true);
         communicationWrite();
         return true;
     }
@@ -53,10 +53,12 @@ bool Talk::connectTcp()
 
 void Talk::communicationRead()
 {
-    while (socket.hasPendingDatagrams()) {
-        received_message.resize(socket.pendingDatagramSize());
-        socket.readDatagram(received_message.data(), received_message.size(), &sender);
-        if (received_message == stop_message) {
+    while (socket.hasPendingDatagrams())
+    {
+        receivedMessage.resize(socket.pendingDatagramSize());
+        socket.readDatagram(receivedMessage.data(), receivedMessage.size(), &sender);
+        if (receivedMessage == stopMessage)
+        {
             qDebug() << "Stop message received. Completion of the process.";
             stop();
             break;
@@ -73,16 +75,18 @@ unsigned char randomNewValue(unsigned char max, unsigned char min, unsigned char
 
 void Talk::communicationWrite()
 {
-    writing = QtConcurrent::run([=]() {
-        socket.writeDatagram(sent_message, QHostAddress::LocalHost, portW);
-        qDebug() << "Send message with " + sent_message.toHex(' ') + ".";
+    writing = QtConcurrent::run([=]()
+    {
+        socket.writeDatagram(sentMessage, QHostAddress::LocalHost, portW);
+        qDebug() << "Send message with " + sentMessage.toHex(' ') + ".";
         QThread::sleep(interval);
-        while(run_flag.load()) {
-            sent_message[1] = randomNewValue(maxHP, minHP, sent_message[1], 10);
-            sent_message[2] = randomNewValue(maxLP, minLP, sent_message[2], 10);
-            sent_message[3] = randomNewValue(maxPL, minPL, sent_message[3], 40);
-            socket.writeDatagram(sent_message, QHostAddress::LocalHost, portW);
-            qDebug() << "Send message with " + sent_message.toHex(' ') + ".";
+        while(runFlag.load())
+        {
+            sentMessage[1] = randomNewValue(maxHP, minHP, sentMessage[1], 10);
+            sentMessage[2] = randomNewValue(maxLP, minLP, sentMessage[2], 10);
+            sentMessage[3] = randomNewValue(maxPL, minPL, sentMessage[3], 40);
+            socket.writeDatagram(sentMessage, QHostAddress::LocalHost, portW);
+            qDebug() << "Send message with " + sentMessage.toHex(' ') + ".";
             QThread::sleep(interval);
         }
     });

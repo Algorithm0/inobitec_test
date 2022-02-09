@@ -15,8 +15,8 @@ public:
          unsigned char _minLP, unsigned char _maxLP,
          unsigned char _minPL, unsigned char _maxPL,
          qint16 port_read = 8234, qint16 port_write = 20108,
-         qint16 _interval = 1);
-    ~Talk();
+         qint16 _interval = 1, QHostAddress ip = QHostAddress::LocalHost);
+    ~Talk() override;
     bool start();
     void stop();
 
@@ -27,13 +27,14 @@ private:
     QUdpSocket socket;
     QHostAddress sender;
     unsigned char minHP, maxHP, minLP, maxLP, minPL, maxPL;
-    QByteArray sent_message, sent_messageOld, received_message;
-    const QByteArray stop_message = "stop!";
+    QByteArray sentMessage, receivedMessage;
+    const QByteArray stopMessage = "stop!";
     bool connectTcp();
     qint16 portW, portR, interval;
-    std::atomic<bool> run_flag;
+    std::atomic<bool> runFlag;
     QFuture<void> writing;
     void communicationWrite();
+    QHostAddress address;
 
 
 private slots:

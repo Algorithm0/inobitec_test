@@ -50,3 +50,16 @@ compile_commands.json
 
 # QtCreator local machine specific files for imported projects
 *creator.user*
+
+# CLion files
+/TestApp_Viewer.exe
+/CMakeCache.txt
+/cmake_install.cmake
+/build.ninja
+/.ninja_log
+/.ninja_deps
+CMakeFiles/*
+.cmake/*
+.idea/*
+TestApp_Viewer_autogen/*
+Testing/*
