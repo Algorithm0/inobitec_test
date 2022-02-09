@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>SingleDisplay.qml</file>
+        <file>Checkered.qml</file>
+        <file>Point.qml</file>
+        <file>play_icon.png</file>
+        <file>BottomBar.qml</file>
+        <file>ColumnInCells.qml</file>
+        <file>Jumper.qml</file>
+    </qresource>
+</RCC>
