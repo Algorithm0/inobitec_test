@@ -6,7 +6,7 @@
 #include <QCoreApplication>
 #include "talk.h"
 
-class SyncWorkServer : public QObject
+class SyncWorkServer final : public QObject
 {
     Q_OBJECT
 
@@ -19,8 +19,8 @@ private:
 
 public:
     explicit SyncWorkServer(QCoreApplication *_parent, Talk *_accomplice, QString _serverAppDir = "C:/server");
-    ~SyncWorkServer();
-    bool runningStatus() { return isRunning; }
+    ~SyncWorkServer() final;
+    [[maybe_unused]] [[nodiscard]] bool runningStatus() const { return isRunning; }
 
 public slots:
     void doSync(); //запуск синхронизации (и непосредственный запуск программы-сервера)

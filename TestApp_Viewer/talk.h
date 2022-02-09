@@ -6,13 +6,13 @@
 #include <QVariant>
 #include <atomic>
 
-class Talk : public QObject
+class Talk final : public QObject
 {
     Q_OBJECT
 
 public:
-    Talk(qint16 port_read = 20108, qint16 port_write = 8234);
-    ~Talk();
+    explicit Talk(qint16 port_read = 20108, qint16 port_write = 8234);
+    ~Talk() final;
     bool start();
 
 signals:
@@ -21,8 +21,8 @@ signals:
 private:
     QUdpSocket socket;
     QHostAddress sender;
-    QByteArray received_message;
-    const QByteArray stop_message = "stop!";
+    QByteArray receivedMessage;
+    const QByteArray stopMessage = "stop!";
     bool connectUdp();
     qint16 portW, portR;
 

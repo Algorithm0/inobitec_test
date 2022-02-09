@@ -18,19 +18,21 @@ SyncWorkServer::~SyncWorkServer()
 
 void SyncWorkServer::doSync()
 {
-    if (!isRunning) {
+    if (!isRunning)
+    {
         isRunning = true;
-        QString prog_add = serverAppDir + "/TestApp_Server";
+        QString programAddress = serverAppDir + "/TestApp_Server";
         if (QSysInfo::productType() == "windows")
-            prog_add += ".exe";
-        QFileInfo check_prog(prog_add);
-        if (!check_prog.exists() || !check_prog.isFile()) {
-            qDebug() << "Server program not found in expected path (" + check_prog.absoluteFilePath() + ')';
+            programAddress += ".exe";
+        QFileInfo programFile(programAddress);
+        if (!programFile.exists() || !programFile.isFile())
+        {
+            qDebug() << "Server program not found in expected path (" + programFile.absoluteFilePath() + ')';
             isRunning = false;
             return;
         }
         serverWork = new QProcess(this);
-        serverWork->start(prog_add);
+        serverWork->start(programAddress);
         connect(parent, SIGNAL(aboutToQuit()), accomplice, SLOT(signalToStopServer()));
         connect(parent, SIGNAL(aboutToQuit()), this, SLOT(endServerApp()));
     }

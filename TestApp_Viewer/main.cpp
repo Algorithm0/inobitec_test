@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     QObject::connect(&recipient, SIGNAL(new_data_received(QVariant,QVariant,QVariant)),
                      engine.rootObjects().at(0), SLOT(newData(QVariant,QVariant,QVariant)));
 
-    QMetaObject::Connection* const connection = new QMetaObject::Connection;
+    auto* const connection = new QMetaObject::Connection;
     *connection = QObject::connect(&recipient, &Talk::new_data_received,
              [&engine, connection]() {
                   engine.rootObjects().at(0)->findChild<QObject*>("startServerButtion")->setProperty("visible", false);

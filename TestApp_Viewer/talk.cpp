@@ -28,17 +28,19 @@ bool Talk::connectUdp()
 
 void Talk::communicationRead()
 {
-    while (socket.hasPendingDatagrams()) {
-        received_message.resize(socket.pendingDatagramSize());
-        socket.readDatagram(received_message.data(), received_message.size(), &sender);
-        if (received_message.size() > 3 && received_message[0] == 'T') {
-            emit new_data_received(QVariant((unsigned char)received_message[1]),
-                    QVariant((unsigned char)received_message[2]), QVariant((unsigned char)received_message[3]));
+    while (socket.hasPendingDatagrams())
+    {
+        receivedMessage.resize(socket.pendingDatagramSize());
+        socket.readDatagram(receivedMessage.data(), receivedMessage.size(), &sender);
+        if (receivedMessage.size() > 3 && receivedMessage[0] == 'T')
+        {
+            emit new_data_received(QVariant((unsigned char)receivedMessage[1]),
+                                   QVariant((unsigned char)receivedMessage[2]), QVariant((unsigned char)receivedMessage[3]));
         }
     }
 }
 
 void Talk::signalToStopServer()
 {
-    socket.writeDatagram(stop_message, QHostAddress::LocalHost, portW);
+    socket.writeDatagram(stopMessage, QHostAddress::LocalHost, portW);
 }
