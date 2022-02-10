@@ -1,5 +1,5 @@
-import QtQuick
-import Qt.labs.settings
+import QtQuick 2.12
+import Qt.labs.settings 1.0
 
 Settings {
     id: colorThemes

@@ -1,6 +1,6 @@
-import QtQuick
-import QtQuick.Window
-import QtQuick.Controls
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
 
 Window {
     id: root
@@ -63,7 +63,7 @@ Window {
     WindowNetworkSettings {
         id: winSettings
         objectName: "winSettings"
-        transientParent: root
+        //transientParent: root
     }
 
     signal startServer()
