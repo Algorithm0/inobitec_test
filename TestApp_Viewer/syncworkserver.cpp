@@ -44,8 +44,8 @@ void SyncWorkServer::doSync()
         }
         QStringList arguments;
         arguments << "-ip" + accomplice->getAddress().toString()
-                  << "-portW" + QString(accomplice->getPortR())
-                  << "-portR" + QString(accomplice->getPortW());
+                  << "-portW" + QString::number(accomplice->getPortR())
+                  << "-portR" + QString::number(accomplice->getPortW());
         serverWork = new QProcess(this);
         serverWork->start(programAddress, arguments);
         connect(parent, SIGNAL(aboutToQuit()), accomplice, SLOT(signalToStopServer()));
