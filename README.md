@@ -9,7 +9,14 @@ Dynamic blood pressure and pulse monitor with server application (reader device 
 
 <a name="#software_functions"></a>
 ## Software functions
-Will be described later
+TestApp_Server performs the function of emulating a medical device, namely a tanometer, which takes measurements once for a given period of time and sends them via UDP.
+TestApp_Server is a console application that has the ability to work with command line arguments. To get help on possible parameters, run TestApp_Server with the `-help` key.
+```
+./TestApp_Server -help #on Linux
+./TestApp_Server.exe -help #on Windows
+```
+TestApp_Viewer acts as a viewer. This application has a visual interface. You will be able to move the grid with the pulse and pressure graph. When you hover over a point, the application will display the value at that point. Click on the label of the current readings to return all grids to the latest readings. You can also configure the application to work with TestApp_Server. Also in TestApp_Viewer there are settings for network configuration. If the data is entered incorrectly, the application will tell you about it.
+
 
 <a name="dependencies"></a>
 ## Dependencies
