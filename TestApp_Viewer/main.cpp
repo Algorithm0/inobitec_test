@@ -18,8 +18,6 @@ int main(int argc, char *argv[])
 
     Talk recipient; //объект взаимодействия с сетью
     SyncWorkServer chain(&app, &recipient, "."); //объект синхронизации с работой сервера
-//    if (!recipient.start())
-//        return -1;
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));

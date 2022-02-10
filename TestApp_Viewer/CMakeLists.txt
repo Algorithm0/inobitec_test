@@ -18,7 +18,7 @@ set(PROJECT_SOURCES
         main.cpp
         talk.cpp
         syncworkserver.cpp
-        qml.qrc
+        resources.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
