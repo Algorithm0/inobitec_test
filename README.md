@@ -30,7 +30,9 @@ sudo apt-get install qtbase5-dev qt5-default build-essential qtdeclarative5-dev 
 Note that you need to check the package versions in your distribution's repository.
 ### Installing QT from the official site for satisfy dependencies
 Download the Qt installer from the official website, run it and follow the installation instructions. You can also optionally install the C++ tools and Cmake here. This option works for both Windows and Linux. Installation may take a long time.
+
 <https://www.qt.io/download-qt-installer?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4>
+
 We advise you to install the `bin` folders from the installation directory to the `PATH`.
 ### Building on the command line 
 You must work separately with each project in this repository. Also check that all the necessary paths are registered in the `PATCH`. Also use PowerShell on Windows.
