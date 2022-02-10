@@ -7,7 +7,7 @@ Dynamic blood pressure and pulse monitor with server application (reader device 
 - [Building](#building)
 - [Deploy](#deploy)
 
-<a name="#software_functions"></a>
+<a name="software_functions"></a>
 ## Software functions
 TestApp_Server performs the function of emulating a medical device, namely a tanometer, which takes measurements once for a given period of time and sends them via UDP.
 TestApp_Server is a console application that has the ability to work with command line arguments. To get help on possible parameters, run TestApp_Server with the `-help` key.
