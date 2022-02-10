@@ -59,4 +59,5 @@ To build, select a project (TestApp_Viewer or TestApp_Server) in the Creator and
 <a name="#deploy"></a>
 ## Deploy
 To deploy these projects you can use CQtDeployer:
+<<<<<<< HEAD
 <https://github.com/QuasarApp/QtDeployer>
