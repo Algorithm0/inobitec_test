@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
         QHostAddress tmpIp;
         for(int i = 1; i < argc && counter < myKeys.size(); i++)
         {
-            for(int j = 0; j < myKeys.size() && counter < myKeys.size(); j++)
+            for(j = 0; j < myKeys.size() && counter < myKeys.size(); j++)
             {
                 argWithoutKey = strstr(argv[i], myKeys[j]);
                 if(argWithoutKey && !strcmp(argWithoutKey, argv[i]))
