@@ -23,7 +23,7 @@ public slots:
 
 signals:
     void newDataReceived(QVariant hPre, QVariant lPre, QVariant pulse);
-    void resTalk(bool res);
+    void resTalk(QVariant res);
 
 private:
     QUdpSocket socket;

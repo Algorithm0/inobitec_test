@@ -222,6 +222,14 @@ Window {
         warningText.visible = false
     }
 
+    function showWithErrorNetwork(isNoError=false) {
+        if(!isNoError) {
+            visible = true
+            warningText.text = "Network error. Check the data."
+            warningText.visible = true
+        }
+    }
+
     onClosing: {
         clear()
     }

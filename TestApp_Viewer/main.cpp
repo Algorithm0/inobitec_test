@@ -35,6 +35,9 @@ int main(int argc, char *argv[])
     QObject::connect(engine.rootObjects().at(0), SIGNAL(changePathServer(QString)),
                      &chain, SLOT(setPathToAppDir(QString)));
 
+    QObject::connect(&recipient, SIGNAL(resTalk(QVariant)), engine.rootObjects().at(0)->findChild<QObject*>("winSettings"),
+                     SLOT(showWithErrorNetwork(QVariant)));
+
     QObject::connect(engine.rootObjects().at(0), SIGNAL(startServer()), &chain, SLOT(doSync()));
     QObject::connect(&recipient, SIGNAL(newDataReceived(QVariant,QVariant,QVariant)),
                      engine.rootObjects().at(0), SLOT(newData(QVariant,QVariant,QVariant)));
